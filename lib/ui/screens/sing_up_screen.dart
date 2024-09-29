@@ -24,9 +24,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
             'Join With Us',
             style: AppTexts.headlineText,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           _buildSingUpForm(),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           Center(
             child: _buildHaveAccountSection(),
           ),
@@ -57,7 +57,6 @@ class _SingUpScreenState extends State<SingUpScreen> {
           hintText: 'Password',
           obscureText: true,
         ),
-        const SizedBox(height: 16),
         ElevatedButton(
           onPressed: _onTapSingUp,
           child: const Icon(

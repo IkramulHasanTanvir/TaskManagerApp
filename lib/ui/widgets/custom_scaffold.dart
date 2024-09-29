@@ -24,8 +24,25 @@ class CustomScaffold extends StatelessWidget {
       drawer: drawer,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
-      body: ScreenBackground(child: body),
-     resizeToAvoidBottomInset: false,
+      body: ScreenBackground(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: _buildBody(context),
+        ),
+      ),
+      resizeToAvoidBottomInset: false,
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    final fixedHeight = MediaQuery.of(context);
+    return SingleChildScrollView(
+      child: Container(
+        constraints: BoxConstraints(
+          minHeight: fixedHeight.size.height - fixedHeight.viewInsets.bottom,
+        ),
+        child: body,
+      ),
     );
   }
 }

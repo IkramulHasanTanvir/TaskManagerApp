@@ -18,12 +18,7 @@ class ScreenBackground extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24.0,
-            ),
-            child: child,
-          ),
+          child: child,
         ),
       ],
     );
