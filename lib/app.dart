@@ -20,7 +20,16 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
         colorSchemeSeed: AppColors.themeColor,
         inputDecorationTheme: _inputDecorationTheme(),
         elevatedButtonTheme: _elevatedButtonThemeData(),
+        navigationBarTheme: _navigationBarThemeData(),
       ),
+    );
+  }
+
+  NavigationBarThemeData _navigationBarThemeData() {
+    return NavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.grey.shade400,
+      indicatorColor: AppColors.themeColor,
     );
   }
 

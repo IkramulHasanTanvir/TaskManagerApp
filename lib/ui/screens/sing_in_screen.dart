@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager_app/ui/screens/forgot_email_screen.dart';
+import 'package:task_manager_app/ui/screens/main_bottom_nav_bar.dart';
 import 'package:task_manager_app/ui/screens/sing_up_screen.dart';
 import 'package:task_manager_app/ui/utils/app_colors.dart';
 import 'package:task_manager_app/ui/utils/app_texts.dart';
@@ -72,7 +73,12 @@ class _SingInScreenState extends State<SingInScreen> {
   }
 
   void _onTapSingIn() {
-    //TODO: implement an tap sing in
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MainBottomNavBar(),
+        ),
+        (value) => false);
   }
 
   // forgot password screen here

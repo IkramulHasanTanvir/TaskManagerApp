@@ -26,7 +26,7 @@ class CustomScaffold extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       body: ScreenBackground(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: _buildBody(context),
         ),
       ),

@@ -6,4 +6,5 @@ class AppTexts {
   static const TextStyle titleText = TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black);
 
   static const TextStyle labelText = TextStyle(color: Colors.grey);
+
 }
