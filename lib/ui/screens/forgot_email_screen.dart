@@ -1,11 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/ui/screens/pin_verification_screen.dart';
-import 'package:task_manager_app/ui/screens/sing_in_screen.dart';
+import 'package:task_manager_app/ui/screens/forgot_otp_screen.dart';
 import 'package:task_manager_app/ui/utils/app_colors.dart';
-import 'package:task_manager_app/ui/utils/app_texts.dart';
-import 'package:task_manager_app/ui/widgets/custom_scaffold.dart';
-import 'package:task_manager_app/ui/widgets/custom_text_form_field.dart';
+import 'package:task_manager_app/ui/widgets/screens_background.dart';
 
 class ForgotEmailScreen extends StatefulWidget {
   const ForgotEmailScreen({super.key});
@@ -17,69 +14,68 @@ class ForgotEmailScreen extends StatefulWidget {
 class _ForgotEmailScreenState extends State<ForgotEmailScreen> {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Your Email Address',
-            style: AppTexts.headlineText,
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'A 6 digit verification pin will send to your email address',
-            style: AppTexts.labelText,
-          ),
-          const SizedBox(height: 16),
-          _buildForgotEmailForm(),
-          const SizedBox(height: 16),
-          Center(
-            child: _buildHaveAccountSection(),
-          ),
-        ],
-      ),
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    return ScreensBackground(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Your Email Address',
+              style: textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'A 6 digit verification pin will send to your email address',
+              style: textTheme.bodyLarge?.copyWith(
+                color: Colors.grey,
+              ),
+            ),
+            const SizedBox(height: 24),
+            _buildSingInForm(),
+            const SizedBox(height: 56),
+            _buildHaveAccountSection(textTheme),
+          ],
+        ),
     );
   }
 
-  Widget _buildForgotEmailForm() {
+  Widget _buildSingInForm() {
     return Column(
       children: [
-        const CustomTextFormField(
-          hintText: 'Email',
+        TextFormField(
           keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(hintText: 'Email'),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
         ElevatedButton(
-          onPressed: _onTapPinVerificationScreen,
-          child: const Icon(
-            Icons.arrow_forward_ios_outlined,
-          ),
+          onPressed: _onTapNextScreen,
+          child: const Icon(Icons.arrow_forward_ios),
         ),
       ],
     );
   }
 
-  void _onTapPinVerificationScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const PinVerificationScreen(),
-      ),
-    );
-  }
-
-  Widget _buildHaveAccountSection() {
-    return RichText(
-      text: TextSpan(
-        style: AppTexts.titleText,
-        text: "Have account? ",
+  Widget _buildHaveAccountSection(TextTheme textTheme) {
+    return Center(
+      child: Column(
         children: [
-          TextSpan(
-            text: 'Sing In',
-            recognizer: TapGestureRecognizer()..onTap = _onTapSingInScreen,
-            style: const TextStyle(
-              color: AppColors.themeColor,
+          RichText(
+            text: TextSpan(
+              text: 'Have account?  ',
+              style: textTheme.titleSmall,
+              children: [
+                TextSpan(
+                  text: 'Sing In',
+                  style: const TextStyle(
+                    color: AppColors.themeColor,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = _onTapSingInScreen,
+                ),
+              ],
             ),
           ),
         ],
@@ -88,11 +84,15 @@ class _ForgotEmailScreenState extends State<ForgotEmailScreen> {
   }
 
   void _onTapSingInScreen() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SingInScreen(),
-        ),
-        (_) => false);
+    Navigator.pop(context);
+  }
+
+  void _onTapNextScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ForgotOtpScreen(),
+      ),
+    );
   }
 }

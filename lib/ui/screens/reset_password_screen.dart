@@ -1,18 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/ui/screens/forgot_email_screen.dart';
-import 'package:task_manager_app/ui/screens/sing_up_screen.dart';
+import 'package:task_manager_app/ui/screens/sing_in_screen.dart';
 import 'package:task_manager_app/ui/utils/app_colors.dart';
 import 'package:task_manager_app/ui/widgets/screens_background.dart';
 
-class SingInScreen extends StatefulWidget {
-  const SingInScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<SingInScreen> createState() => _SingInScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _SingInScreenState extends State<SingInScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -22,15 +21,22 @@ class _SingInScreenState extends State<SingInScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Get Started With',
+              'Set Password',
               style: textTheme.headlineLarge?.copyWith(
                 fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Minimum length password 8 character with Latter and number combination',
+              style: textTheme.bodyLarge?.copyWith(
+                color: Colors.grey,
               ),
             ),
             const SizedBox(height: 24),
             _buildSingInForm(),
             const SizedBox(height: 56),
-            _buildForgotOrAccountSection(textTheme),
+            _buildHaveAccountSection(textTheme),
           ],
         ),
     );
@@ -40,43 +46,39 @@ class _SingInScreenState extends State<SingInScreen> {
     return Column(
       children: [
         TextFormField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(hintText: 'Email'),
+          obscureText: true,
+          decoration: const InputDecoration(hintText: 'Password'),
         ),
         const SizedBox(height: 16),
         TextFormField(
           obscureText: true,
-          decoration: const InputDecoration(hintText: 'Password'),
+          decoration: const InputDecoration(hintText: 'Confirm Password'),
         ),
         const SizedBox(height: 24),
         ElevatedButton(
-          onPressed: _onTapSingInButton,
-          child: const Icon(Icons.arrow_forward_ios),
+          onPressed: _onTapNextScreen,
+          child: const Text('Confirm'),
         ),
       ],
     );
   }
 
-  Widget _buildForgotOrAccountSection(TextTheme textTheme) {
+  Widget _buildHaveAccountSection(TextTheme textTheme) {
     return Center(
       child: Column(
         children: [
-          TextButton(
-            onPressed: _onTapForgotScreen,
-            child: const Text('Forgot Password?'),
-          ),
           RichText(
             text: TextSpan(
-              text: "Don't have account?  ",
+              text: 'Have account?  ',
               style: textTheme.titleSmall,
               children: [
                 TextSpan(
-                  text: 'Sing Up',
+                  text: 'Sing In',
                   style: const TextStyle(
                     color: AppColors.themeColor,
                   ),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = _onTapSingUpScreen,
+                    ..onTap = _onTapSingInScreen,
                 ),
               ],
             ),
@@ -86,23 +88,21 @@ class _SingInScreenState extends State<SingInScreen> {
     );
   }
 
-  void _onTapSingUpScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SingUpScreen(),
-      ),
-    );
+  void _onTapSingInScreen() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SingInScreen(),
+        ),
+        (value) => false);
   }
 
-  void _onTapForgotScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ForgotEmailScreen(),
-      ),
-    );
+  void _onTapNextScreen() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SingInScreen(),
+        ),
+        (value) => false);
   }
-
-  void _onTapSingInButton() {}
 }

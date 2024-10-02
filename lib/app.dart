@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager_app/ui/screens/splash_screen.dart';
 import 'package:task_manager_app/ui/utils/app_colors.dart';
-import 'package:task_manager_app/ui/utils/app_texts.dart';
 
 class TaskManagerApp extends StatefulWidget {
   const TaskManagerApp({super.key});
@@ -17,52 +16,52 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
       theme: ThemeData(
-        colorSchemeSeed: AppColors.themeColor,
-        inputDecorationTheme: _inputDecorationTheme(),
-        elevatedButtonTheme: _elevatedButtonThemeData(),
-        navigationBarTheme: _navigationBarThemeData(),
+        inputDecorationTheme: _buildInputDecorationTheme(),
+        elevatedButtonTheme: _buildElevatedButtonThemeData(),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.grey,
+          )
+        )
       ),
     );
   }
 
-  NavigationBarThemeData _navigationBarThemeData() {
-    return NavigationBarThemeData(
-      backgroundColor: Colors.transparent,
-      surfaceTintColor: Colors.grey.shade400,
-      indicatorColor: AppColors.themeColor,
-    );
-  }
-
-  ElevatedButtonThemeData _elevatedButtonThemeData() {
-    return ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.themeColor,
-        foregroundColor: Colors.white,
-        fixedSize: const Size(double.maxFinite, 56),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    );
-  }
-
-  InputDecorationTheme _inputDecorationTheme() {
+  InputDecorationTheme _buildInputDecorationTheme() {
     return InputDecorationTheme(
       fillColor: Colors.white,
+      hintStyle: const TextStyle(
+        color: Colors.grey,
+      ),
       filled: true,
-      hintStyle: AppTexts.labelText,
       border: _outlineInputBorder(),
-      enabledBorder: _outlineInputBorder(),
       focusedBorder: _outlineInputBorder(),
-      errorBorder: _outlineInputBorder(),
+      enabledBorder: _outlineInputBorder(),
       disabledBorder: _outlineInputBorder(),
+      errorBorder: _outlineInputBorder(),
+      focusedErrorBorder: _outlineInputBorder(),
     );
   }
 
   OutlineInputBorder _outlineInputBorder() {
     return OutlineInputBorder(
-      borderSide: BorderSide.none,
       borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide.none,
+    );
+  }
+
+  ElevatedButtonThemeData _buildElevatedButtonThemeData() {
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        elevation: 0,
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.themeColor,
+        fixedSize: const Size.fromWidth(double.maxFinite),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
     );
   }
 }
