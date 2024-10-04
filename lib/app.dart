@@ -16,6 +16,8 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
       theme: ThemeData(
+        colorSchemeSeed: AppColors.themeColor,
+        floatingActionButtonTheme: _buildFloatingActionButtonThemeData(),
         inputDecorationTheme: _buildInputDecorationTheme(),
         elevatedButtonTheme: _buildElevatedButtonThemeData(),
         textButtonTheme: _buildTextButtonThemeData(),
@@ -24,20 +26,26 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
     );
   }
 
+  FloatingActionButtonThemeData _buildFloatingActionButtonThemeData() {
+    return const FloatingActionButtonThemeData(
+      elevation: 0,
+      shape: CircleBorder(),
+    );
+  }
+
   NavigationBarThemeData _buildNavigationBarThemeData() {
-    return  const NavigationBarThemeData(
-        indicatorColor: AppColors.themeColor,
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.grey
-      );
+    return const NavigationBarThemeData(
+      indicatorColor: AppColors.themeColor,
+      backgroundColor: Colors.transparent,
+    );
   }
 
   TextButtonThemeData _buildTextButtonThemeData() {
     return TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.grey,
-        ),
-      );
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.grey,
+      ),
+    );
   }
 
   InputDecorationTheme _buildInputDecorationTheme() {
@@ -45,6 +53,7 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
       fillColor: Colors.white,
       hintStyle: const TextStyle(
         color: Colors.grey,
+        fontSize: 14,
       ),
       filled: true,
       border: _outlineInputBorder(),

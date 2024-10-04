@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager_app/ui/screens/task_view/new_task_screen.dart';
+import 'package:task_manager_app/ui/screens/completed_task_screen.dart';
+import 'package:task_manager_app/ui/screens/canceled_task_screen.dart';
+import 'package:task_manager_app/ui/screens/new_task_screen.dart';
+import 'package:task_manager_app/ui/screens/progress_task_screen.dart';
 import 'package:task_manager_app/ui/widgets/tm_app_bar.dart';
 
 class MainBottomNavBar extends StatefulWidget {
@@ -14,6 +17,9 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
 
   final List<Widget> _screens = const [
     NewTaskScreen(),
+    CompletedTaskScreen(),
+    CanceledTaskScreen(),
+    ProgressTaskScreen(),
   ];
 
   @override

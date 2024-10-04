@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager_app/ui/screens/forgot_email_screen.dart';
 import 'package:task_manager_app/ui/screens/sing_up_screen.dart';
-import 'package:task_manager_app/ui/screens/task_view/main_bottom_nav_bar.dart';
+import 'package:task_manager_app/ui/screens/main_bottom_nav_bar.dart';
 import 'package:task_manager_app/ui/utils/app_colors.dart';
 import 'package:task_manager_app/ui/widgets/screens_background.dart';
 

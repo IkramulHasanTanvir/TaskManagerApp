@@ -27,7 +27,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            _buildSingInForm(),
+            _buildSingUpForm(),
             const SizedBox(height: 56),
             _buildHaveAccountSection(textTheme),
           ],
@@ -35,7 +35,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
     );
   }
 
-  Widget _buildSingInForm() {
+  Widget _buildSingUpForm() {
     return Column(
       children: [
         TextFormField(
