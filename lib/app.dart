@@ -18,13 +18,26 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
       theme: ThemeData(
         inputDecorationTheme: _buildInputDecorationTheme(),
         elevatedButtonTheme: _buildElevatedButtonThemeData(),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.grey,
-          )
-        )
+        textButtonTheme: _buildTextButtonThemeData(),
+        navigationBarTheme: _buildNavigationBarThemeData(),
       ),
     );
+  }
+
+  NavigationBarThemeData _buildNavigationBarThemeData() {
+    return  const NavigationBarThemeData(
+        indicatorColor: AppColors.themeColor,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.grey
+      );
+  }
+
+  TextButtonThemeData _buildTextButtonThemeData() {
+    return TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.grey,
+        ),
+      );
   }
 
   InputDecorationTheme _buildInputDecorationTheme() {
