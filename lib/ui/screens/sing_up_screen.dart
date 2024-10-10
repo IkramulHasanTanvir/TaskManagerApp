@@ -92,7 +92,9 @@ class _SingUpScreenState extends State<SingUpScreen> {
               controller: _mobileController,
               keyboardType: TextInputType.phone,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(hintText: 'Mobile'),
+              decoration: const InputDecoration(
+                hintText: 'Mobile',
+              ),
               validator: (String? value) {
                 if (value?.isEmpty ?? true) {
                   return 'Enter valid mobile';
@@ -174,14 +176,18 @@ class _SingUpScreenState extends State<SingUpScreen> {
     setState(() {});
 
     if (response.isSuccess) {
-      _clearField();
       snackBarMessage(context, 'New account created');
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const SingInScreen()),
+          (predicate) => false);
+      _clearField();
     } else {
       snackBarMessage(context, response.errorMessage, true);
     }
   }
 
-  void _clearField(){
+  void _clearField() {
     _emailController.clear();
     _firstNameController.clear();
     _lastNameController.clear();

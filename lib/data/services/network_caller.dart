@@ -35,7 +35,8 @@ class NetworkCaller {
     }
   }
 
-  static Future<NetworkResponse> postRequest({required String url, Map<String, dynamic>? body}) async {
+  static Future<NetworkResponse> postRequest(
+      {required String url, Map<String, dynamic>? body}) async {
     try {
       Uri uri = Uri.parse(url);
 
@@ -50,6 +51,13 @@ class NetworkCaller {
 
       if (response.statusCode == 200) {
         final decodeData = jsonDecode(response.body);
+        if (decodeData['status'] == 'fail') {
+          return NetworkResponse(
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: decodeData['data'],
+          );
+        }
         return NetworkResponse(
           isSuccess: true,
           statusCode: response.statusCode,

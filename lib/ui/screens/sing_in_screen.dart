@@ -1,10 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager_app/data/models/network_response.dart';
+import 'package:task_manager_app/data/services/network_caller.dart';
+import 'package:task_manager_app/data/utils/urls.dart';
+import 'package:task_manager_app/ui/controller/auth_controller.dart';
 import 'package:task_manager_app/ui/screens/forgot_email_screen.dart';
 import 'package:task_manager_app/ui/screens/sing_up_screen.dart';
 import 'package:task_manager_app/ui/screens/main_bottom_nav_bar.dart';
 import 'package:task_manager_app/ui/utils/app_colors.dart';
+import 'package:task_manager_app/ui/widgets/circular_progress.dart';
 import 'package:task_manager_app/ui/widgets/screens_background.dart';
+import 'package:task_manager_app/ui/widgets/snack_bar_message.dart';
 
 class SingInScreen extends StatefulWidget {
   const SingInScreen({super.key});
@@ -14,6 +20,11 @@ class SingInScreen extends StatefulWidget {
 }
 
 class _SingInScreenState extends State<SingInScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  bool _inProgress = false;
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -38,23 +49,55 @@ class _SingInScreenState extends State<SingInScreen> {
   }
 
   Widget _buildSingInForm() {
-    return Column(
-      children: [
-        TextFormField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(hintText: 'Email'),
-        ),
-        const SizedBox(height: 16),
-        TextFormField(
-          obscureText: true,
-          decoration: const InputDecoration(hintText: 'Password'),
-        ),
-        const SizedBox(height: 24),
-        ElevatedButton(
-          onPressed: _onTapSingInButton,
-          child: const Icon(Icons.arrow_forward_ios),
-        ),
-      ],
+    return Form(
+      key: _globalKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _emailController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(hintText: 'Email'),
+            validator: (String? value) {
+              if (value?.isEmpty ?? true) {
+                return 'Enter a valid email';
+              }
+              if (!value!.contains('@')) {
+                return "Enter a valid email '@'";
+              }
+              if (!value.contains('.com')) {
+                return "Enter a valid email '.com'";
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _passwordController,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            obscureText: true,
+            decoration: const InputDecoration(hintText: 'Password'),
+            validator: (String? value) {
+              if (value?.isEmpty ?? true) {
+                return 'Enter a valid password';
+              }
+              if (value!.length < 6) {
+                return 'Enter a password more then 6 character';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 24),
+          Visibility(
+            visible: !_inProgress,
+            replacement: const CircularProgress(),
+            child: ElevatedButton(
+              onPressed: _onTapSingInButton,
+              child: const Icon(Icons.arrow_forward_ios),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -87,6 +130,43 @@ class _SingInScreenState extends State<SingInScreen> {
     );
   }
 
+  void _onTapSingInButton() {
+    if (!_globalKey.currentState!.validate()) {
+      return;
+    }
+    _singIn();
+  }
+
+  Future<void> _singIn() async {
+    _inProgress = true;
+    setState(() {});
+
+    Map<String, dynamic> requestBody = {
+      'email': _emailController.text.trim(),
+      'password': _passwordController.text,
+    };
+
+    NetworkResponse response = await NetworkCaller.postRequest(
+      url: Urls.login,
+      body: requestBody,
+    );
+    _inProgress = false;
+    setState(() {});
+
+    if (response.isSuccess) {
+      await AuthController.saveAccessToken(response.responseBody['token']);
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainBottomNavBar(),
+          ),
+          (value) => false);
+    } else {
+      snackBarMessage(context, response.errorMessage, true);
+    }
+  }
+
   void _onTapSingUpScreen() {
     Navigator.push(
       context,
@@ -105,12 +185,10 @@ class _SingInScreenState extends State<SingInScreen> {
     );
   }
 
-  void _onTapSingInButton() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainBottomNavBar(),
-        ),
-        (value) => false);
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

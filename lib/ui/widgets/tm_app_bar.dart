@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager_app/ui/controller/auth_controller.dart';
 import 'package:task_manager_app/ui/screens/profile_screen.dart';
 import 'package:task_manager_app/ui/screens/sing_in_screen.dart';
 import 'package:task_manager_app/ui/utils/app_colors.dart';
@@ -52,7 +53,8 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
-  void _onTapLogout(BuildContext context) {
+  void _onTapLogout(BuildContext context) async {
+    await AuthController.clearUserData();
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
