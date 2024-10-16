@@ -155,14 +155,13 @@ class _SingInScreenState extends State<SingInScreen> {
 
     if (response.isSuccess) {
       await AuthController.saveAccessToken(response.responseBody['token']);
-
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const MainBottomNavBar(),
           ),
           (value) => false);
-    } else {
+    }else {
       snackBarMessage(context, response.errorMessage, true);
     }
   }

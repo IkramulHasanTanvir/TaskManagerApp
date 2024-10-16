@@ -17,13 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _moveNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
     await AuthController.getAccessToken();
-    if (AuthController.isLoggedIn()) {
+    if(AuthController.isLoggedIn()){
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const MainBottomNavBar(),
           ),
-          (_) => false);
+              (value) => false);
     }else{
       Navigator.pushAndRemoveUntil(
           context,
