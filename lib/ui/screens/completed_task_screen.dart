@@ -15,7 +15,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListView.builder(
         itemCount: 9,
-        itemBuilder: (context, index) => const TaskCard(),
+        itemBuilder: (context, index) => const TaskCard(taskModel: null,),
       ),
     );
   }

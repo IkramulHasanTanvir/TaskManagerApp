@@ -11,8 +11,12 @@ class NetworkCaller {
     try {
       Uri uri = Uri.parse(url);
       debugPrint(url);
+      Map<String, String> headers = {
+        'token': AuthController.accessToken.toString(),
+      };
 
-      final Response response = await get(uri);
+      final Response response = await get(uri,headers: headers);
+
       _debugPrint(url, response);
 
       if (response.statusCode == 200) {

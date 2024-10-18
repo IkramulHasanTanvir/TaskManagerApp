@@ -15,7 +15,7 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ListView.builder(
         itemCount: 9,
-        itemBuilder: (context, index) => const TaskCard(),
+        itemBuilder: (context, index) => TaskCard(taskModel:,),
       ),
     );
   }
