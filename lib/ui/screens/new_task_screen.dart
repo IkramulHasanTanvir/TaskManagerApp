@@ -4,6 +4,7 @@ import 'package:task_manager_app/data/models/task_list_model.dart';
 import 'package:task_manager_app/data/services/network_caller.dart';
 import 'package:task_manager_app/data/utils/urls.dart';
 import 'package:task_manager_app/ui/screens/add_new_screen.dart';
+import 'package:task_manager_app/ui/utils/app_colors.dart';
 import 'package:task_manager_app/ui/widgets/snack_bar_message.dart';
 import 'package:task_manager_app/ui/widgets/task_card.dart';
 import 'package:task_manager_app/ui/widgets/task_summary_card.dart';
@@ -35,23 +36,32 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: [
-            _buildTaskSummary(),
-            Expanded(
-              child: Visibility(
-                visible: !inProgress,
-                replacement: const CircularProgressIndicator(),
-                child: ListView.separated(
-                  itemCount: _newTaskList.length,
-                  itemBuilder: (context, index) => TaskCard(
-                    taskModel: _newTaskList[index],
+        child: RefreshIndicator(
+          onRefresh: () async {
+            _newTaskStatusList();
+          },
+          child: Column(
+            children: [
+              _buildTaskSummary(),
+              Expanded(
+                child: Visibility(
+                  visible: !inProgress,
+                  replacement: const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  separatorBuilder: (context, index) => const SizedBox(),
+                  child: ListView.separated(
+                    itemCount: _newTaskList.length,
+                    itemBuilder: (context, index) => TaskCard(
+                      taskModel: _newTaskList[index],
+                      title: 'New',
+                      chipBorderColor: AppColors.themeColor,
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -85,13 +95,16 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
-  void _onTapFAB() {
-    Navigator.push(
+  Future<void> _onTapFAB() async {
+    final bool? shouldRefresh = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => const AddNewScreen(),
       ),
     );
+    if (shouldRefresh == true) {
+      _newTaskStatusList();
+    }
   }
 
   Future<void> _newTaskStatusList() async {

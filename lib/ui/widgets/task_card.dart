@@ -4,16 +4,20 @@ import 'package:task_manager_app/ui/utils/app_colors.dart';
 
 class TaskCard extends StatefulWidget {
   const TaskCard({
-    super.key, required this.taskModel,
+    super.key, required this.taskModel, required this.title, required this.chipBorderColor,
+
   });
 
   final TaskModel taskModel;
+  final String title;
+  final Color chipBorderColor;
 
   @override
   State<TaskCard> createState() => _TaskCardState();
 }
 
 class _TaskCardState extends State<TaskCard> {
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -53,16 +57,16 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   Widget _buildStatusChip() {
-    return const Chip(
-      label: Text('new'),
-      shape: RoundedRectangleBorder(
+    return  Chip(
+      label: Text(widget.title),
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           bottomRight: Radius.circular(16),
         ),
       ),
       side: BorderSide(
-        color: AppColors.themeColor,
+        color: widget.chipBorderColor,
         width: 1.5,
       ),
     );

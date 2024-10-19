@@ -19,23 +19,32 @@ class _AddNewScreenState extends State<AddNewScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   bool _inProgress = false;
+  bool shouldRefreshPreviousPage = false;
+
 
   @override
   Widget build(BuildContext context) {
-    return ScreensBackground(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 56),
-          Text(
-            'Add New Task',
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-          ),
-          const SizedBox(height: 24),
-          _buildAddNewForm(),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop,result){
+        if(didPop) return;
+        Navigator.pop(context, shouldRefreshPreviousPage);
+      },
+      child: ScreensBackground(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 56),
+            Text(
+              'Add New Task',
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+            const SizedBox(height: 24),
+            _buildAddNewForm(),
+          ],
+        ),
       ),
     );
   }
@@ -106,6 +115,8 @@ class _AddNewScreenState extends State<AddNewScreen> {
     _inProgress = false;
     setState(() {});
     if(response.isSuccess){
+      Navigator.pop(context,shouldRefreshPreviousPage = true);
+      //shouldRefreshPreviousPage = true;
       _clearField();
       snackBarMessage(context, 'New task create successfully');
     }else{
